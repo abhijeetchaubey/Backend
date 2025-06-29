@@ -1,7 +1,8 @@
 import express from "express"
 import  cors from "cors"
 import cookieParser from "cookie-parser"
-import { asyncHandeler } from "./utils/asyncHandeler.js"
+// import userRouter from "../src/routes/user.routes.js"
+
 const app = express()
 
 app.use(cors({
@@ -14,8 +15,11 @@ app.use(express.urlencoded({extended:true,limit:"16kb"})) // to handel the white
 app.use(express.static("public"))  // to store the images and other thing to the public folder
 app.use(cookieParser())  //to access and set the cookies from the server to the browser of the user
 
-app.get("/", asyncHandeler(async (req, res) => {
-    // const user = await db.getUser()
-    res.send("<h1>Abhijeet</h1>")
-}))
+//routes import 
+import userRouter from "./routes/user.routes.js"
+
+// routes declarations
+app.use(express.json()); // To parse JSON body in requests
+
+app.use("/api/v1/users", userRouter);
 export {app} 
