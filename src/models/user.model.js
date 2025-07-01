@@ -58,13 +58,9 @@ userSchema.pre("save", async function(next){
 });
 
 console.log("checking password");
-    // console.log("encrypted password",this.password);
-    // console.log("normal password",password);
 userSchema.methods.ispasswordCorrect = async function 
 (password) {
 
-    
-    
     return await bcrypt.compare(password,this.password)
 }
 console.log("checking password");
