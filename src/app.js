@@ -21,5 +21,5 @@ import userRouter from "./routes/user.routes.js"
 // routes declarations
 app.use(express.json()); // To parse JSON body in requests
 
-app.use("/api/v1/users", userRouter);
+    app.use("/api/v1/users", userRouter);
 export {app} 
