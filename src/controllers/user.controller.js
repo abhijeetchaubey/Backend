@@ -12,7 +12,7 @@ const registerUser = asyncHandeler(async (req, res) => {
   // validation -not empty
 
   if (
-    [fullName, email, userName, password].some((field) => field?.trim() === "")
+    [fullName, email, userName, password].some((field) => !field ||field?.trim() === "")
   ) {
     throw new ApiError(400, "fullname is requried");
   }
@@ -87,7 +87,7 @@ const loginUser = asyncHandeler(async(req,res)=>{
     // send response 
 
     const {email,username,password}= req.body
-    if (!username || !email) {
+    if((!email && !username) || !password) {
         throw new ApiError(400,"usename or password is requried")
     }
 
@@ -96,12 +96,15 @@ const loginUser = asyncHandeler(async(req,res)=>{
     })
 
     if (!user) {
-      throw ApiError(404,"USer not registerd")
+      throw new ApiError(404,"USer not registerd")
     }
 
     const isPasswordValid =await user.ispasswordCorrect(password)
-
+    console.log("password",password);
+    
     if (!isPasswordValid) {
+      // console.error(isPasswordValid);
+      
       throw new ApiError(401,"Invalid user credential")
     }
 
@@ -117,6 +120,7 @@ const loginUser = asyncHandeler(async(req,res)=>{
         return { accessToken,refreshToken }
 
       } catch (error) {
+        
         throw new ApiError(500,"Something went wrong while generating Refresh and access token");
         
       }
