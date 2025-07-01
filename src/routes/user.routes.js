@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { loginUser, logOutUSer, registerUser } from "../controllers/user.controller.js"; // Fixed typo: 'registerUSer' ➝ 'registerUser'
 import { upload } from "../middlewares/multer.middleware.js";
-
+import { verifyJWT } from "../middlewares/auth.middleware.js";
 const router = Router();
 
 router.route("/register").post(
